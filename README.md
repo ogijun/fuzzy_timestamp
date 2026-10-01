@@ -27,7 +27,7 @@ require "fuzzy_timestamp"
 FuzzyTimestamp.parse("2026/3/5 14:30", now: Time.now)  # => "2026-03-05T14:30"
 FuzzyTimestamp.parse("2026年3月", now: Time.now)       # => "2026-03"
 FuzzyTimestamp.parse("昨日 9:05", now: Time.now)        # => e.g. "2026-09-24T09:05"
-FuzzyTimestamp.parse("", now: Time.now)                 # => nil (unknown)
+FuzzyTimestamp.parse("", now: Time.now)                 # => nil (unknown; so is "不明")
 FuzzyTimestamp.parse("あした", now: Time.now)           # => "あした" (unreadable; valid? rejects it)
 
 FuzzyTimestamp.valid?("2026-02-30")                     # => false

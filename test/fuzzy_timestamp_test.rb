@@ -58,6 +58,12 @@ class FuzzyTimestampTest < Minitest::Test
     assert_nil parse(nil)
   end
 
+  def test_the_word_for_unknown_is_unknown
+    assert_nil parse("不明")
+    assert_nil parse("日付不明")
+    assert_equal FuzzyTimestamp.label(nil), "日付不明"
+  end
+
   def test_unreadable_text_is_returned_as_is_for_validation_to_reject
     assert_equal "あした", parse("あした")
     refute FuzzyTimestamp.valid?(parse("あした"))

@@ -32,15 +32,17 @@ module FuzzyTimestamp
     "去年" => ->(today) { today.prev_year.year.to_s },
     "昨年" => ->(today) { today.prev_year.year.to_s }
   }.freeze
+  # label(nil) の「日付不明」と対になる書き方。空欄と同じく不明 (nil) として読む。
+  UNKNOWN = %w[不明 日付不明].freeze
 
   module_function
 
   # 書かれた日時を読み取る。「2026/9/25」「2026年9月」「2026」「9/25」(今年)「20260925」「今日」「先月」
   # 「去年」、それに時刻を付けた「2026/9/25 14:30」「昨日 9:05」「14時」(今日) など。全角も読む。
-  # 空なら nil (不明)。読めないものは書いたまま返す (正しさは valid? で判定する)。
+  # 空か「不明」なら nil (不明)。読めないものは書いたまま返す (正しさは valid? で判定する)。
   def parse(text, now:)
     text = text.to_s.unicode_normalize(:nfkc).strip
-    return if text.empty?
+    return if text.empty? || UNKNOWN.include?(text)
 
     today = now.to_date
     time = TIME.match(text)
